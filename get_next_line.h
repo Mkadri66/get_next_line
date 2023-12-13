@@ -6,7 +6,7 @@
 /*   By: mkadri <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 20:26:04 by mkadri            #+#    #+#             */
-/*   Updated: 2023/12/09 20:04:18 by mkadri           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:17:55 by mkadri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);
-char	*ft_strjoin(char const *str1, char const *str2);
+char	*ft_strjoin(char *str1, char *str2);
+char	*ft_strchr(const char *str, int searched_char);
 #endif

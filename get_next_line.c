@@ -6,64 +6,46 @@
 /*   By: mkadri <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 20:25:46 by mkadri            #+#    #+#             */
-/*   Updated: 2023/12/11 17:52:57 by mkadri           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:29:46 by mkadri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+
+char    *ft_make_line(char *str)
+{
+
+}
+
+
 
 char *get_next_line(int fd) {
-    static char *temp = NULL;
+    static char *temp;
+    char *buffer;
+    char *line;
+    int bytesRead;
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return NULL;
-
-    char buffer[BUFFER_SIZE];
-    int bytesRead;
-
-    // Vérifier si temp a été alloué, sinon l'allouer
+    temp = NULL;
+    bytesRead = 1;
+    buffer =  (char *)malloc(BUFFER_SIZE + 1  * sizeof(char));
     if (temp == NULL) {
-        temp = (char *)malloc(BUFFER_SIZE * sizeof(char));
-        if (temp == NULL) {
-            perror("Erreur d'allocation de mémoire");
-            exit(EXIT_FAILURE);
-        }
-    } else {
-        // Réinitialiser temp à chaque appel
+        temp = (char *)malloc(BUFFER_SIZE + 1 * sizeof(char));
+    } else 
         temp[0] = '\0';
-    }
-
-    bytesRead = read(fd, buffer, sizeof(buffer));
-
-    while (bytesRead > 0) {
-        int i = 0;
-
-        while (i < bytesRead && buffer[i] != '\n') {
-            char currentChar = buffer[i];
-
-            // Faire quelque chose avec le caractère, par exemple l'ajouter à temp
-            char tempChar[2] = {currentChar, '\0'};
-            strcat(temp, tempChar);
-
-            // Incrémenter l'index
-            i++;
-        }
-
-        if (i < bytesRead && buffer[i] == '\n') {
-            // Si un retour à la ligne est rencontré, sortir de la boucle externe
-			break;
-        }
-
+    while (bytesRead > 0 && !ft_strchr(temp, '\n')) {
+        
         bytesRead = read(fd, buffer, sizeof(buffer));
+        temp = ft_strjoin(temp, buffer);
     }
-
-    // Afficher la ligne lue
+    free(buffer);
+    line = ft_make_line(temp);
+    // a faire filtrer la ligne jusqu au \n
+    // recuperer le surplus pour le mettre dans static 
     printf("%s\n", temp);
 
-    return temp;
+    return (temp);
 }
 
 int main() {
@@ -76,7 +58,7 @@ int main() {
 
     get_next_line(fileDescriptor);
     get_next_line(fileDescriptor);
-    get_next_line(fileDescriptor);
+    //get_next_line(fileDescriptor);
 
 
     close(fileDescriptor);
