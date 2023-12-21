@@ -3,3 +3,7 @@
 *.o
 *.txt
 test.c
+gnlTester
+.DS_Store
+a.out.dSYM/
+
