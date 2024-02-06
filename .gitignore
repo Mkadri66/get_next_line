@@ -6,4 +6,6 @@ test.c
 gnlTester
 .DS_Store
 a.out.dSYM/
-
+.vscode/
+build/
+get_next_line.dSYM/
