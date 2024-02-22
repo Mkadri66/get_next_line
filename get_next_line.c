@@ -6,7 +6,7 @@
 /*   By: mkadri <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 20:25:46 by mkadri            #+#    #+#             */
-/*   Updated: 2024/02/22 17:00:26 by mkadri           ###   ########.fr       */
+/*   Updated: 2024/02/22 21:02:33 by mkadri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,19 @@ char *read_line(int fd, char *temp)
 
     bytes_read = 1;
     buffer = (char *)malloc(BUFFER_SIZE + 1 * sizeof(char));
-    if (buffer == NULL) {
-        return (NULL);
-    }
+    if(!buffer)
+        return(NULL);
     while (bytes_read > 0 && !ft_strchr(temp, '\n')) {
         bytes_read = read(fd, buffer, BUFFER_SIZE);
-        if (bytes_read > 0) {
-            buffer[bytes_read] = '\0';
-            temp = ft_strjoin(temp, buffer);
+        if(bytes_read == -1)
+        {
+            free(buffer);
+            return(NULL);
         }
+        buffer[bytes_read] = '\0';
+        temp = ft_strjoin(temp, buffer);
     }
     free(buffer);
-    if (bytes_read <= 0 || bytes_read == 0)
-    {
-        free(temp);
-        return NULL;
-    }
-
     return (temp);
 }
 
@@ -45,18 +41,14 @@ char *make_line(char *temp)
 	unsigned long	i;
 	char	*line;
 	
-    if(!temp)
-    {
+    i = 0;
+    if(!temp[i])
         return(NULL);
-    }
-	i = 0;
 	while(temp[i] != '\n' && temp[i] != '\0')
 		i++;
 	line = (char *) malloc((i + 2) * sizeof(char));
     if(!line)
-    {
         return(NULL);
-    }
 	i = 0;
 	while(temp[i] != '\n' && temp[i] != '\0')
 	{
@@ -65,32 +57,36 @@ char *make_line(char *temp)
 	}
     if(temp[i] == '\n')
     {
-        line[i++] = '\n';
+        line[i] = '\n';
+        i++;
     }
 	line[i] = '\0';
 	return (line);
 }
-char *clean_temp(char *str)
+char *clean_temp(char *left_str)
 {
 	int		i;
-	char	*new_temp;
+	int		j;
+	char	*str;
 
-    if(!str)
-    {
-        return(NULL);
-    }
 	i = 0;
-    while (str[i] != '\n' && str[i] != '\0') {
-        i++;
-    }
-    if (str[i] == '\0')
-    {
-        free(str);
-        return (NULL);
-    }
-	new_temp = ft_strdup(str + i + 1);
-    free(str);
-	return(new_temp);
+	while (left_str[i] && left_str[i] != '\n')
+		i++;
+	if (!left_str[i])
+	{
+		free(left_str);
+		return (NULL);
+	}
+	str = (char *)malloc(sizeof(char) * (ft_strlen(left_str) - i + 1));
+	if (!str)
+		return (NULL);
+	i++;
+	j = 0;
+	while (left_str[i])
+		str[j++] = left_str[i++];
+	str[j] = '\0';
+	free(left_str);
+	return (str);
 }
 char *get_next_line(int fd) {
     static char *temp;
@@ -98,34 +94,32 @@ char *get_next_line(int fd) {
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
+    //printf(" temp 1 : %s \n", temp);
     temp = read_line(fd, temp);
+    //printf(" temp 2 : %s \n", temp);
     line = make_line(temp);
     if (!line)
 	{
 		free(temp);
 		return (NULL);
 	}
+    //printf(" Line : %s", line);
     temp = clean_temp(temp);
     return (line);
 }
 
-int main() {
-    int fileDescriptor = open("file.txt", O_RDONLY);
-    if (fileDescriptor < 0) {
-        perror("Erreur lors de l'ouverture du fichier");
-        return 1;
-    }
+// int main() {
+//     int fileDescriptor = open("file.txt", O_RDONLY);
     
+//     char *line;
 
-    char *line;
+//     while((line = get_next_line(fileDescriptor)) != NULL)
+//     {
+//         printf("%s", line);
+//         free(line);
+//     }
 
-    while((line = get_next_line(fileDescriptor)) != NULL)
-    {
-        printf("%s", line);
-        free(line);
-    }
+//     close(fileDescriptor);
 
-    close(fileDescriptor);
-
-    return 0;
-}
+//     return 0;
+// }

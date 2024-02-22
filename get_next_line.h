@@ -6,7 +6,7 @@
 /*   By: mkadri <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 20:26:04 by mkadri            #+#    #+#             */
-/*   Updated: 2024/02/22 15:34:18 by mkadri           ###   ########.fr       */
+/*   Updated: 2024/02/22 20:47:08 by mkadri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ size_t	ft_strlen(const char *str);
 char	*ft_strjoin(char *str1, char *str2);
 char	*ft_strchr(const char *str, int searched_char);
 char 	*ft_strdup(const char *str);
+void	*ft_memset(void *array, int value, size_t count);
 
 #endif
