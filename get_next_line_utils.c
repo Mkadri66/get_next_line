@@ -6,7 +6,7 @@
 /*   By: mkadri <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 20:26:29 by mkadri            #+#    #+#             */
-/*   Updated: 2024/02/22 21:09:28 by mkadri           ###   ########.fr       */
+/*   Updated: 2024/02/22 21:10:49 by mkadri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,4 @@ char	*ft_strdup(const char *str)
 	}
 	str_copy[i] = '\0';
 	return (str_copy);
-}
-
-void	*ft_memset(void *array, int value, size_t count)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < count)
-	{
-		*((unsigned char *)(array + i)) = (unsigned char)value;
-		i++;
-	}
-	return (array);
 }
