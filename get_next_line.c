@@ -6,7 +6,7 @@
 /*   By: mkadri <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 20:25:46 by mkadri            #+#    #+#             */
-/*   Updated: 2024/02/23 20:17:21 by mkadri           ###   ########.fr       */
+/*   Updated: 2024/02/23 22:29:57 by mkadri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,29 +64,29 @@ char	*make_line(char *temp)
 	return (line);
 }
 
-char	*clean_temp(char *left_str)
+char	*clean_temp(char *temp)
 {
 	int		i;
 	int		j;
 	char	*str;
 
 	i = 0;
-	while (left_str[i] && left_str[i] != '\n')
+	while (temp[i] && temp[i] != '\n')
 		i++;
-	if (!left_str[i])
+	if (!temp[i])
 	{
-		free(left_str);
+		free(temp);
 		return (NULL);
 	}
-	str = (char *)malloc(sizeof(char) * (ft_strlen(left_str) - i + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen(temp) - i + 1));
 	if (!str)
 		return (NULL);
 	i++;
 	j = 0;
-	while (left_str[i])
-		str[j++] = left_str[i++];
+	while (temp[i])
+		str[j++] = temp[i++];
 	str[j] = '\0';
-	free(left_str);
+	free(temp);
 	return (str);
 }
 

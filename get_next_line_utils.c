@@ -6,7 +6,7 @@
 /*   By: mkadri <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 20:26:29 by mkadri            #+#    #+#             */
-/*   Updated: 2024/02/23 19:08:06 by mkadri           ###   ########.fr       */
+/*   Updated: 2024/02/23 22:29:29 by mkadri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,28 +64,4 @@ char	*ft_strchr(const char *str, int searched_char)
 		return ((char *) str);
 	}
 	return (0);
-}
-
-char	*ft_strdup(const char *str)
-{
-	char	*str_copy;
-	int		str_size;
-	int		i;
-
-	if (!str)
-	{
-		return (NULL);
-	}
-	i = 0;
-	str_size = ft_strlen(str);
-	str_copy = (char *) malloc ((str_size + 1) * sizeof(char));
-	if (!str || !str_copy)
-		return (NULL);
-	while (str[i] != '\0')
-	{
-		str_copy[i] = str[i];
-		i++;
-	}
-	str_copy[i] = '\0';
-	return (str_copy);
 }
