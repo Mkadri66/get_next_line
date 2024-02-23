@@ -6,7 +6,7 @@
 /*   By: mkadri <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 20:25:46 by mkadri            #+#    #+#             */
-/*   Updated: 2024/02/23 19:37:27 by mkadri           ###   ########.fr       */
+/*   Updated: 2024/02/23 20:17:21 by mkadri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*read_file(int fd, char *temp)
 	while (bytes_read > 0 && !ft_strchr(temp, '\n'))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
+		if (bytes_read < 0)
 		{
 			free(buffer);
 			return (NULL);
@@ -98,28 +98,28 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	temp = read_file(fd, temp);
-	line = make_line(temp);
-	if (!line)
+	if (!temp)
 	{
 		free(temp);
 		return (NULL);
 	}
+	line = make_line(temp);
 	temp = clean_temp(temp);
 	return (line);
 }
-
+/*
 int main() {
-    int fileDescriptor = 4;
+    //int fileDescriptor = 4;
+    int fileDescriptor = open("file.txt", O_RDONLY);
     
     char *line;
 
     while((line = get_next_line(fileDescriptor)) != NULL)
-    {
+    {   
         printf("%s", line);
         free(line);
     }
-
     close(fileDescriptor);
-
     return 0;
 }
+*/
