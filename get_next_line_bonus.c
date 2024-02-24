@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkadri <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 20:25:46 by mkadri            #+#    #+#             */
-/*   Updated: 2024/02/23 22:49:38 by mkadri           ###   ########.fr       */
+/*   Created: 2024/02/24 13:14:40 by mkadri            #+#    #+#             */
+/*   Updated: 2024/02/24 13:20:42 by mkadri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*read_file(int fd, char *temp)
 {
@@ -92,34 +92,18 @@ char	*clean_temp(char *temp)
 
 char	*get_next_line(int fd)
 {
-	static char	*temp;
+	static char	*temp[OPEN_MAX];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	temp = read_file(fd, temp);
-	if (!temp)
+	temp[fd] = read_file(fd, temp[fd]);
+	if (!temp[fd])
 	{
-		free(temp);
+		free(temp[fd]);
 		return (NULL);
 	}
-	line = make_line(temp);
-	temp = clean_temp(temp);
+	line = make_line(temp[fd]);
+	temp[fd] = clean_temp(temp[fd]);
 	return (line);
 }
-/*
-int main() {
-    //int fileDescriptor = 4;
-    int fileDescriptor = open("file.txt", O_RDONLY);
-    
-    char *line;
-
-    while((line = get_next_line(fileDescriptor)) != NULL)
-    {   
-        printf("%s", line);
-        free(line);
-    }
-    close(fileDescriptor);
-    return 0;
-}
-*/
